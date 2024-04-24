@@ -2,8 +2,10 @@ function main() {
     [...document.querySelectorAll('.has-tooltip')].forEach(tooltip => {
         tooltip.addEventListener('click', (event) => {
             event.preventDefault();
+
+            const nextTooltip = tooltip.nextElementSibling
             
-            if (!tooltip.querySelector('div')) {
+            if (nextTooltip === null || !nextTooltip.classList.contains('tooltip')) {
                 removeTooltips(); //удаляет все активные всплывающие подсказки с разметки
                 const tooltipContent = document.createElement('div');
                 tooltipContent.textContent = tooltip.title;
@@ -13,13 +15,11 @@ function main() {
                 tooltipContent.style.top = coords.bottom + window.scrollY + 'px';
                 tooltipContent.style.left = coords.left + window.scrollX + 'px';
                 tooltipContent.style.position = 'absolute';
-                console.log(window.scrollY);
 
-                tooltip.appendChild(tooltipContent)
+                tooltip.insertAdjacentElement('afterend', tooltipContent);
             } else {
-                const tooltipContent = tooltip.querySelector('div');
+                const tooltipContent = tooltip.nextElementSibling;
                 tooltipContent.remove();
-                return;
             }
         })
     })
@@ -30,7 +30,8 @@ function removeTooltips() {
         [...document.querySelectorAll('.tooltip')].forEach(tooltipActive => {
             tooltipActive.remove();
         })
-    } else return;
+    };
 }
+
 
 main();

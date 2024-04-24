@@ -10,13 +10,6 @@ function main() {
         addTask()
     });
 
-    //Добавление задачи по нажатию на Enter
-    tasksInput.addEventListener('keydown', (event) => {
-        if (event.key === 'Enter') {
-            addTask();
-        }
-    })
-
     window.addEventListener('load', () => {
         getTasksFromLocalStorage();
     })
@@ -35,19 +28,10 @@ function deleteTask() {
 //Добавление задачи
 function addTask() {
     if (tasksInput.value.trim() !== '') {
-        tasksList.insertAdjacentHTML('beforeend', 
-        `
-        <div class="task">
-            <div class="task__title">
-                ${tasksInput.value.trim()}
-            </div>
-            <a href="#" class="task__remove">&times;</a>
-        </div>
-        `);
+        addHTML(tasksInput.value.trim());
         addLocalStorage();
-        form.reset();
-        deleteTask();
-    } else return;
+        form.reset(); 
+    }
 };
 
 //Формирование localStorage
@@ -70,19 +54,24 @@ function getTasksFromLocalStorage() {
 
     if (data) {
         JSON.parse(data).forEach(task => {
-            tasksList.insertAdjacentHTML('beforeend', 
-            `
-            <div class="task">
-                <div class="task__title">
-                    ${task}
-                </div>
-                <a href="#" class="task__remove">&times;</a>
-            </div>
-            `)
-            deleteTask();
+            addHTML(task);
         })
-        
     }
 }
 
+//Добавить задачу в HTML
+function addHTML(task) {
+    tasksList.insertAdjacentHTML('beforeend', 
+    `
+    <div class="task">
+        <div class="task__title">
+            ${task}
+        </div>
+        <a href="#" class="task__remove">&times;</a>
+    </div>
+    `)
+    deleteTask();
+}
+
 main();
+
