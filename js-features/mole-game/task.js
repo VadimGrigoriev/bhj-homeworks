@@ -16,11 +16,9 @@ for (let i = 1; i <= 9; i++) {
 
 function game() {
   if (dead.textContent == 10) {
-    alert("Вы победили!");
-    reset();
+    reset(alert("Вы победили!"));
   } else if (lost.textContent == 5) {
-    alert("Вы проиграли!");
-    reset();
+    reset(alert("Вы проиграли!"));
   }
 }
 
