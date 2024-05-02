@@ -1,13 +1,11 @@
 const textarea = document.querySelector('#editor');
-const localValue = localStorage.data;
 const btn = document.querySelector('.reset');
 
-if (localValue) {
-    textarea.value = localStorage.data;
-};
+textarea.value = localStorage.getItem('data');
 
 textarea.addEventListener('input', () => {
-    localStorage.data = textarea.value;
+    // localStorage.data = textarea.value;
+    localStorage.setItem('data', textarea.value);
 });
 
 btn.addEventListener('click', (event) => {

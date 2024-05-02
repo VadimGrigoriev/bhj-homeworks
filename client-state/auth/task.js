@@ -4,7 +4,7 @@ const welcome = document.querySelector('.welcome');
 const btnLogout = document.querySelector('.logout');
 
 //Проверка на авторизацию. Если пользователь авторизован, выводится приветствие.
-if (localStorage.id) {
+if (localStorage.getItem('id')) {
     printWelcome()
 }
 
@@ -14,12 +14,12 @@ form.addEventListener('submit', (event) => {
 
     const xhr = new XMLHttpRequest();
     xhr.open('POST', 'https://students.netoservices.ru/nestjs-backend/auth');
+    xhr.responseType = 'json';
     xhr.send(new FormData(form));
 
     xhr.onload = () => {
-        const response = JSON.parse(xhr.response);
-        if (response.success) {
-            localStorage.id = response['user_id'];
+        if (xhr.response.success) {
+            localStorage.setItem('id', xhr.response.user_id);
             printWelcome();
         } else {
             alert('Неверный логин/пароль');
